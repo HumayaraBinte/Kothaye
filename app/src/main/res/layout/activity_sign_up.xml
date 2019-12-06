@@ -38,7 +38,7 @@
 
 
             <EditText
-                android:id="@+id/signInEmailEditTextId"
+                android:id="@+id/signUpEmailEditTextId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
@@ -48,7 +48,7 @@
                 android:textColorHint="#dff2fa" />
 
             <EditText
-                android:id="@+id/signInPasswordEditTextId"
+                android:id="@+id/signUpPasswordEditTextId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
@@ -58,21 +58,21 @@
                 android:textColorHint="#dff2fa" />
 
             <Button
-                android:id="@+id/signInButtonId"
+                android:id="@+id/signUpButtonId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="7dp"
-                android:text="Login"
+                android:text="Sign up"
                 android:textAllCaps="false"
                 android:textColor="#dff2fa" />
 
             <TextView
-                android:id="@+id/signUpTextViewId"
+                android:id="@+id/signInTextViewId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
-                android:text="Don't have account? Sign Up"
+                android:text="Already have an account? Sign In"
                 android:textAlignment="center"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textColor="#dff2fa" />
