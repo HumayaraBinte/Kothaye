@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "266912089428",
+    "firebase_url": "https://kothaye-bhai.firebaseio.com",
+    "project_id": "kothaye-bhai",
+    "storage_bucket": "kothaye-bhai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:266912089428:android:3987ed502923cb3a7574c1",
+        "android_client_info": {
+          "package_name": "com.example.kothayebhai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "266912089428-p3i749tfsf3jbcnnranc9imtsrhh6kt6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kothayebhai",
+            "certificate_hash": "b436871aa2424f025039de0d3308453b4f1a84b2"
+          }
+        },
+        {
+          "client_id": "266912089428-konadiladk7rujling19crgqbrqhjvl8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWEW36DJZFjrkv_zg0UwDQbZO6Y1CWVKA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "266912089428-konadiladk7rujling19crgqbrqhjvl8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
