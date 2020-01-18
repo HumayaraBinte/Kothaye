@@ -17,10 +17,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText signUpEmailEditText, signUpPasswordEditText;
+    private EditText signUpNameEditText, signUpEmailEditText, signUpPasswordEditText, signUpPhoneEditText,
+            signUpEducationEditText, signUpJobEditText, signUpNextJobEditText;
     private TextView signInTextView;
     private Button signUpButton;
     private FirebaseAuth mAuth;
@@ -36,8 +38,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         mAuth = FirebaseAuth.getInstance();
 
         progressBar = findViewById(R.id.progressbarId);
+
+        signUpNameEditText = findViewById(R.id.signUpNameEditTextId);
+
         signUpEmailEditText = findViewById(R.id.signUpEmailEditTextId);
         signUpPasswordEditText = findViewById(R.id.signUpPasswordEditTextId);
+
+        signUpPhoneEditText = findViewById(R.id.signUpPhoneEditTextId);
+        signUpEducationEditText = findViewById(R.id.signUpEducationEditTextId);
+        signUpJobEditText = findViewById(R.id.signUpJobEditTextId);
+        signUpNextJobEditText = findViewById(R.id.signUpNextJobEditTextId);
+
         signInTextView = findViewById(R.id.signInTextViewId);
         signUpButton = findViewById(R.id.signUpButtonId);
 
@@ -59,10 +70,24 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void userRegister() {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(mAuth.getCurrentUser() != null){
+            //handles already logged in user
+        }
+    }
 
-        String email = signUpEmailEditText.getText().toString().trim();
+    private void userRegister() {
+        final String name = signUpNameEditText.getText().toString().trim();
+
+        final String email = signUpEmailEditText.getText().toString().trim();
         String password = signUpPasswordEditText.getText().toString().trim();
+
+        final String phone = signUpPhoneEditText.getText().toString().trim();
+        final String education = signUpEducationEditText.getText().toString().trim();
+        final String current_job = signUpJobEditText.getText().toString().trim();
+        final String future_job = signUpNextJobEditText.getText().toString().trim();
 
         if(email.isEmpty())
         {
@@ -97,16 +122,32 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Registered Successfully", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Registered Successfully", Toast.LENGTH_SHORT).show();
+                    User user = new User(
+                            name,
+                            email,
+                            phone,
+                            education,
+                            current_job,
+                            future_job
+
+                    );
+                    FirebaseDatabase.getInstance().getReference("Users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                progressBar.setVisibility(View.GONE);
+                                Toast.makeText(getApplicationContext(), "Registered Successfully", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(getApplicationContext(), "Faced error", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 } else {
-                    if(task.getException() instanceof FirebaseAuthUserCollisionException) {
-                        Toast.makeText(getApplicationContext(), "User is already registered", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
                         Toast.makeText(getApplicationContext(), "Error:"+ task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
                 }
             }
         });

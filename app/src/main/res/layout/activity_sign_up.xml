@@ -10,21 +10,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
-
-        <ImageView
-            android:layout_width="85dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/logo_app" />
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@color/colorPrimary">
 
@@ -36,6 +21,21 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:background="@drawable/logo_app" />
+
+            <EditText
+                android:id="@+id/signUpNameEditTextId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:hint="name"
+                android:inputType="text"
+                android:paddingBottom="15dp"
+                android:textColorHint="#dff2fa" />
 
             <EditText
                 android:id="@+id/signUpEmailEditTextId"
@@ -54,6 +54,46 @@
                 android:fontFamily="sans-serif"
                 android:hint="password"
                 android:inputType="textPassword"
+                android:paddingBottom="15dp"
+                android:textColorHint="#dff2fa" />
+
+            <EditText
+                android:id="@+id/signUpPhoneEditTextId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:hint="Phone"
+                android:inputType="text"
+                android:paddingBottom="15dp"
+                android:textColorHint="#dff2fa" />
+
+            <EditText
+                android:id="@+id/signUpEducationEditTextId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:hint="Education"
+                android:inputType="text"
+                android:paddingBottom="15dp"
+                android:textColorHint="#dff2fa" />
+
+            <EditText
+                android:id="@+id/signUpJobEditTextId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:hint="Current profession"
+                android:inputType="text"
+                android:paddingBottom="15dp"
+                android:textColorHint="#dff2fa" />
+
+            <EditText
+                android:id="@+id/signUpNextJobEditTextId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:hint="Job you want eg: programming, writing, repair"
+                android:inputType="text"
                 android:paddingBottom="15dp"
                 android:textColorHint="#dff2fa" />
 
