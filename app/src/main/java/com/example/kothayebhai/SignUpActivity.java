@@ -75,6 +75,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         super.onStart();
         if(mAuth.getCurrentUser() != null){
             //handles already logged in user
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     }
 

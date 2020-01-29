@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.kothayebhai.FindFreelancerActivity;
 import com.example.kothayebhai.FindWorkActivity;
+import com.example.kothayebhai.MapsActivity;
 import com.example.kothayebhai.R;
 
 public class HomeFragment extends Fragment {
@@ -49,7 +50,7 @@ public class HomeFragment extends Fragment {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), null));
+                startActivity(new Intent(getContext(), MapsActivity.class));
             }
         });
         return root;
