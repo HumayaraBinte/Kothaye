@@ -12,7 +12,7 @@
 
         <RelativeLayout
             android:id="@+id/layoutHead"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryDark"
             android:layout_width="match_parent"
             android:layout_height="200dp">
 
@@ -37,12 +37,13 @@
             android:padding="16dp"
             android:layout_centerHorizontal="true"
             android:orientation="vertical"
+            android:background="@color/colorPrimary"
             android:layout_below="@id/layoutHead"
             android:layout_width="360dp"
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/signUpNameEditTextId"
+                android:id="@+id/profileNameEditTextId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
@@ -52,7 +53,7 @@
                 android:textColor="@android:color/white" />
 
             <EditText
-                android:id="@+id/signUpEmailEditTextId"
+                android:id="@+id/profileEmailEditTextId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
@@ -62,17 +63,7 @@
                 android:textColor="@android:color/white" />
 
             <EditText
-                android:id="@+id/signUpPasswordEditTextId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:hint="password"
-                android:inputType="textPassword"
-                android:paddingBottom="15dp"
-                android:textColor="@android:color/white" />
-
-            <EditText
-                android:id="@+id/signUpPhoneEditTextId"
+                android:id="@+id/profilePhoneEditTextId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
@@ -82,7 +73,7 @@
                 android:textColor="@android:color/white" />
 
             <EditText
-                android:id="@+id/signUpEducationEditTextId"
+                android:id="@+id/profileEducationEditTextId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
@@ -92,7 +83,7 @@
                 android:textColor="@android:color/white" />
 
             <EditText
-                android:id="@+id/signUpJobEditTextId"
+                android:id="@+id/profileJobEditTextId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
@@ -102,7 +93,7 @@
                 android:textColor="@android:color/white" />
 
             <EditText
-                android:id="@+id/signUpNextJobEditTextId"
+                android:id="@+id/profileNextJobEditTextId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
