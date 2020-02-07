@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,18 +18,29 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class FindFreelancerActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
+    private ProgressDialog loadingBar;
     private ImageButton selectPostImage;
     private Button updatePostButton;
     private EditText postDescription;
@@ -37,19 +49,28 @@ public class FindFreelancerActivity extends AppCompatActivity {
     private String description;
 
     private StorageReference postImagesReference;
+    private DatabaseReference userRef, postRef;
+    private FirebaseAuth mAuth;
 
-    private String saveCurrentDate, saveCurrentTime, postRandomName;
+    private String saveCurrentDate, saveCurrentTime, postRandomName, downloadUrl, current_user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_freelancer);
 
+        mAuth = FirebaseAuth.getInstance();
+        current_user_id = mAuth.getCurrentUser().getUid();
+
         postImagesReference = FirebaseStorage.getInstance().getReference();
+        userRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        postRef = FirebaseDatabase.getInstance().getReference().child("Posts");
+
 
         selectPostImage = findViewById(R.id.imageButton4);
         updatePostButton = findViewById(R.id.postButtonId);
         postDescription = findViewById(R.id.editText3);
+        loadingBar = new ProgressDialog(this);
 
         mToolbar = findViewById(R.id.update_post_page_toolbar);
         setSupportActionBar(mToolbar);
@@ -81,6 +102,10 @@ public class FindFreelancerActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please provide description for the job", Toast.LENGTH_SHORT).show();
         }
         else {
+            loadingBar.setTitle("Add a new post");
+            loadingBar.setMessage("Please wait while we're updating your post...");
+            loadingBar.show();
+            loadingBar.setCanceledOnTouchOutside(true);
             storingImage();
         }
     }
@@ -96,18 +121,101 @@ public class FindFreelancerActivity extends AppCompatActivity {
 
         postRandomName = saveCurrentDate + saveCurrentTime;
 
-        StorageReference filePath = postImagesReference.child("Post Images").child(ImageUri.getLastPathSegment() + postRandomName + ".jpg");
+        final StorageReference filePath = postImagesReference.child("Post Images").child(ImageUri.getLastPathSegment() + postRandomName + ".jpg");
 
+        final UploadTask uploadTask = filePath.putFile(ImageUri);
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                String message = e.toString();
+                Toast.makeText(getApplicationContext(), "Error" + message, Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                //Toast.makeText(getApplicationContext(), "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+
+                Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if(!task.isSuccessful()){
+                            throw task.getException();
+                        }
+                        downloadUrl = filePath.getDownloadUrl().toString();
+                        return filePath.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if(task.isSuccessful()){
+                            downloadUrl = task.getResult().toString();
+                            Toast.makeText(getApplicationContext(), "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                            savingPostInformation();
+                        }
+                        else {
+                            String message = task.getException().getMessage();
+                            Toast.makeText(getApplicationContext(), "Error: " + message, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+/*
         filePath.putFile(ImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 if(task.isSuccessful()){
+                    downloadUrl = filePath.getDownloadUrl().toString();
+
                     Toast.makeText(getApplicationContext(), "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+
+                    savingPostInformation();
                 }
                 else {
                     String message = task.getException().getMessage();
                     Toast.makeText(getApplicationContext(), "Error: " + message, Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+    */
+    }
+
+    private void savingPostInformation() {
+        userRef.child(current_user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    String userName = dataSnapshot.child("name").getValue().toString();
+
+                    HashMap postsMap = new HashMap();
+                    postsMap.put("uid", current_user_id);
+                    postsMap.put("date", saveCurrentDate);
+                    postsMap.put("time", saveCurrentTime);
+                    postsMap.put("description", description);
+                    postsMap.put("postImage", downloadUrl);
+                    postsMap.put("name", userName);
+
+                    postRef.child(current_user_id + postRandomName).updateChildren(postsMap).addOnCompleteListener(new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+                            if(task.isSuccessful()){
+                                sendUserBack();
+                                Toast.makeText(getApplicationContext(), "Pots is Updated Successfully ", Toast.LENGTH_SHORT).show();
+                                loadingBar.dismiss();
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(), "Error occurred while updating yout post ", Toast.LENGTH_SHORT).show();
+                                loadingBar.dismiss();
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
