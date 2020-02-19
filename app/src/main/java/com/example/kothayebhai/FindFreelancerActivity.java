@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -33,6 +35,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -232,7 +236,21 @@ public class FindFreelancerActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==Gallery_pick && resultCode==RESULT_OK){
             ImageUri = data.getData();
-            selectPostImage.setImageURI(ImageUri);
+            //selectPostImage.setImageURI(ImageUri);
+
+            //Input Stream
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(ImageUri);
+
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+                selectPostImage.setImageBitmap(bitmap);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+
         }
     }
 
