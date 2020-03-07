@@ -1,9 +1,11 @@
 package com.example.kothayebhai.ui.tools;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +17,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kothayebhai.ClickPostActivity;
+import com.example.kothayebhai.CommentsActivity;
 import com.example.kothayebhai.Posts;
 import com.example.kothayebhai.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -59,13 +63,35 @@ public class ToolsFragment extends Fragment {
 
         FirebaseRecyclerAdapter<Posts, PostsViewHolder> adapter = new FirebaseRecyclerAdapter<Posts, PostsViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull PostsViewHolder postsViewHolder, int i, @NonNull Posts posts) {
+            protected void onBindViewHolder(@NonNull PostsViewHolder postsViewHolder, final int i, @NonNull Posts posts) {
+
+                //final String PostRef = getRef(position).getKey();
 
                 postsViewHolder.userName.setText(posts.getName());
                 postsViewHolder.date.setText(posts.getDate());
                 postsViewHolder.postTime.setText(posts.getTime());
                 postsViewHolder.description.setText(posts.getDescription());
                 Picasso.get().load(posts.getPostImage()).into(postsViewHolder.postImage);
+
+                postsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String postKey = getRef(i).getKey();
+                        Intent post_intent = new Intent(getActivity(), ClickPostActivity.class);
+                        post_intent.putExtra("postKey", postKey);
+                        startActivity(post_intent);
+                    }
+                });
+
+                postsViewHolder.commentButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String postKey = getRef(i).getKey();
+                        Intent comment_intent = new Intent(getActivity(), CommentsActivity.class);
+                        comment_intent.putExtra("postKey", postKey);
+                        startActivity(comment_intent);
+                    }
+                });
 
             }
 
@@ -87,6 +113,7 @@ public class ToolsFragment extends Fragment {
 
         TextView userName, postTime, date, description;
         ImageView postImage;
+        ImageButton commentButton;
 
         public PostsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -96,6 +123,7 @@ public class ToolsFragment extends Fragment {
             postTime = itemView.findViewById(R.id.posts_time);
             description = itemView.findViewById(R.id.post_description);
             postImage = itemView.findViewById(R.id.jobs_post_image);
+            commentButton = itemView.findViewById(R.id.comment_button);
         }
     }
 }

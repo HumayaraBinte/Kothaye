@@ -29,7 +29,7 @@ public class HomeFragment extends Fragment {
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final Button btn = root.findViewById(R.id.freelanceButtonId);
-        final Button btn1 = root.findViewById(R.id.workButtonId);
+        //final Button btn1 = root.findViewById(R.id.workButtonId);
         final Button btn2 = root.findViewById(R.id.placeButtonId);
 
 
@@ -40,12 +40,12 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        btn1.setOnClickListener(new View.OnClickListener() {
+        /*btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), FindWorkActivity.class));
             }
-        });
+        });*/
 
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override

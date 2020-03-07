@@ -46,7 +46,7 @@
                 android:textAllCaps="false"
                 android:background="@color/colorPrimaryDark"
                 android:textColor="#dff2fa" />
-
+<!--
             <Button
                 android:id="@+id/workButtonId"
                 android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                 android:text="Find Work"
                 android:textAllCaps="false"
                 android:background="@color/colorPrimaryDark"
-                android:textColor="#dff2fa" />
+                android:textColor="#dff2fa" />-->
 
             <Button
                 android:id="@+id/placeButtonId"
