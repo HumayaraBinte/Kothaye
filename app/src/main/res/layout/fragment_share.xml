@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_share"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_app" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Kothay” is an artificially intelligent recommender system integrated in android application which is dedicated to bridge the existing gap in the service industry, and make lives simpler. The application aims to use the current location of the user in order to find everything such as people, work, and places. Currently, in Bangladesh unemployment rates are rising and the amount of wages people receive are excruciatingly low and our platform helps them find jobs/work to make a living or earn extra money. The application cuts the middleman and directly connects a freelancer to a person who’s looking for someone for a specific task. And this task could be anything according to a person’s given requirements, for instance someone has a broken window and they want it fixed, they could go to our application and through our platform they can find a window repairman. Another feature of our application is you can find a place around your vicinity. In simple words ‘Find a place’ is a one stop local platform for consumers where they can discover, connect and transact with local businesses of all sizes by making it easy to request a quote, join a waitlist, and make a reservation, appointment or even set-up a shop. The fundamental motivation behind the application has been using the concepts of crowdsourcing and social networks to devise a structure that can be useful for the mass populace in making lives simpler. Crowdsourcing has the potential to lead to fundamental and disruptive changes in software development. An essential component of crowdsourcing is social media, which has also been incorporated into the idea."
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -115,9 +115,9 @@
                 android:id="@+id/comment_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/comment"
+                android:src="@drawable/money"
                 android:baselineAlignBottom="false"
-                android:layout_marginLeft="180dp"/>
+                android:layout_marginLeft="250dp"/>
 
         </LinearLayout>
 
