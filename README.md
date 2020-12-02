@@ -1,0 +1,1 @@
+An Android App dedicated to bridge the existing gap in the service industry, and make lives simpler. Connects blue collar freelancers to their clients & connects clients to freelancers to fulfill their job requirements.
